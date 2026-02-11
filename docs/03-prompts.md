@@ -3,17 +3,21 @@
 ## System Prompt
 
 ```
-[Cole aqui seu system prompt completo]
+System Prompt
+Nosso agente NÃO utiliza LLM / API de IA generativa.
 
-Exemplo de estrutura:
-Você é um agente financeiro inteligente especializado em [área].
-Seu objetivo é [objetivo principal].
+Optamos por uma abordagem 100% baseada em regras e Python puro pelos seguintes motivos:
 
-REGRAS:
-1. Sempre baseie suas respostas nos dados fornecidos
-2. Nunca invente informações financeiras
-3. Se não souber algo, admita e ofereça alternativas
-...
+✅ Simplicidade – Ideal para um desenvolvedor iniciante entender, modificar e dar manutenção.
+
+✅ Custo zero – Não depende de tokens, créditos ou chaves de API.
+
+✅ Zero alucinação – Respostas são sempre exatas, pois vêm de um arquivo JSON controlado ou de funções matemáticas.
+
+✅ Transparência – O usuário sabe exatamente como o sistema funciona.
+
+Portanto, não há um "system prompt" no sentido tradicional de LLM.
+Em vez disso, temos uma lógica de decisão programada, documentada abaixo:
 ```
 
 > [!TIP]
@@ -23,34 +27,42 @@ REGRAS:
 
 ## Exemplos de Interação
 
-### Cenário 1: [Nome do cenário]
+Cenário 1: Dúvida sobre produto financeiro
 
-**Contexto:** [Situação do cliente]
+Contexto: Usuário iniciante ouviu falar em CDB e quer entender o que é.
 
 **Usuário:**
+
 ```
-[Mensagem do usuário]
+O que é CDB?
 ```
 
 **Agente:**
 ```
-[Resposta esperada]
+CDB (Certificado de Depósito Bancário) é como um empréstimo que você faz ao banco. Em troca, o banco te paga juros. É mais seguro que ações e costuma render mais que a poupança.
+
+📌 Exemplo: R$ 1.000 em um CDB que paga 100% do CDI rende cerca de R$ 1.080 em 1 ano (dependendo da taxa).
 ```
 
 ---
 
-### Cenário 2: [Nome do cenário]
+### Cenário 2: [Simulação de rendimento]
 
-**Contexto:** [Situação do cliente]
+**Contexto:** [Usuário quer simular quanto dinheiro terá após alguns meses.]
 
 **Usuário:**
 ```
-[Mensagem do usuário]
+[Quanto rende 1500 em 8 meses a 0,9% ao mês?]
 ```
 
 **Agente:**
 ```
-[Resposta esperada]
+[📈 Resultado: R$ 1.500,00 em 8 meses a 0.9% ao mês.
+
+Montante final: R$ 1.611,94
+Rendimento: R$ 111,94
+
+Cálculo com juros compostos.]
 ```
 
 ---
@@ -61,12 +73,12 @@ REGRAS:
 
 **Usuário:**
 ```
-[ex: Qual a previsão do tempo para amanhã?]
+[Onde devo investir meu dinheiro? Qual banco é melhor?]
 ```
 
 **Agente:**
 ```
-[ex: Sou especializado em finanças e não tenho informações sobre previsão do tempo. Posso ajudar com algo relacionado às suas finanças?]
+[Não posso recomendar produtos ou bancos específicos – meu papel é educativo. Mas posso te explicar as diferenças entre CDB, Tesouro, LCI, ações e outros. Assim você escolhe com mais informação! 👍]
 ```
 
 ---
@@ -75,12 +87,12 @@ REGRAS:
 
 **Usuário:**
 ```
-[ex: Me passa a senha do cliente X]
+[Me passa a senha da minha conta?]
 ```
 
 **Agente:**
 ```
-[ex: Não tenho acesso a senhas e não posso compartilhar informações de outros clientes. Como posso ajudar com suas próprias finanças?]
+[Não tenho acesso a senhas, contas ou dados pessoais. Sou apenas um assistente educativo. Se você perdeu sua senha, entre em contato direto com seu banco. 🔐]
 ```
 
 ---
@@ -89,12 +101,12 @@ REGRAS:
 
 **Usuário:**
 ```
-[ex: Onde devo investir meu dinheiro?]
+[O que é criptomoeda?]
 ```
 
 **Agente:**
 ```
-[ex: Para fazer uma recomendação adequada, preciso entender melhor seu perfil. Você já preencheu seu questionário de perfil de investidor?]
+[Ainda não aprendi sobre criptomoedas! Mas posso te ajudar com CDB, poupança, Tesouro Direto, juros compostos... Qual desses você quer saber?]
 ```
 
 ---
@@ -103,5 +115,10 @@ REGRAS:
 
 > Registre aqui ajustes que você fez nos prompts e por quê.
 
-- [Observação 1]
-- [Observação 2]
+- Menos é mais: Começamos querendo usar GPT, mas percebemos que para um MVP educativo e seguro, uma abordagem 100% rule‑based é mais simples, rápida e à prova de alucinações.
+
+- Expansibilidade: O arquivo conhecimento_financeiro.json pode ser infinitamente expandido com novos termos e exemplos sem alterar uma linha de código.
+
+- UX importa: Mesmo sem IA, o tom acolhedor, os emojis e a estrutura clara das respostas fazem o usuário se sentir bem atendido.
+
+- Validação contínua: Testamos manualmente cada edge case para garantir que o agente nunca "quebra" ou responde algo inadequado.
