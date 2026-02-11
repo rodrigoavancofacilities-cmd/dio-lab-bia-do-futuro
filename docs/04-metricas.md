@@ -4,21 +4,22 @@
 
 A avaliação pode ser feita de duas formas complementares:
 
-1. **Testes estruturados:** Você define perguntas e respostas esperadas;
-2. **Feedback real:** Pessoas testam o agente e dão notas.
+1.Testes de funcionalidade: Verificar se cada comando/pergunta reconhecida retorna a resposta correta.
+
+2.Testes com usuários reais: 3 a 5 pessoas testam e dão notas.
+
+3.Cobertura da base de conhecimento: Quantas perguntas comuns o agente consegue responder?
 
 ---
 
 ## Métricas de Qualidade
 
-| Métrica | O que avalia | Exemplo de teste |
-|---------|--------------|------------------|
-| **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
-| **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
-| **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
-
-> [!TIP]
-> Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
+Métrica	O que avalia	Como testar
+Assertividade	O agente entendeu a pergunta e respondeu corretamente?	Fazer 10 perguntas que estão no JSON e verificar se acertou todas.
+Cobertura	% de perguntas frequentes que o agente consegue responder	Listar 20 dúvidas comuns de iniciantes e ver quantas estão cadastradas.
+Tom de voz	A resposta parece amigável e acessível?	Testadores avaliam de 1 a 5 se a linguagem é clara e acolhedora.
+Segurança	O agente evitou dar recomendações ou "achar" respostas?	Fazer perguntas fora do escopo e ver se ele admite não saber.
+Robustez	O sistema quebra com alguma pergunta estranha?	Testar entradas vazias, símbolos, perguntas muito longas.
 
 ---
 
@@ -26,26 +27,40 @@ A avaliação pode ser feita de duas formas complementares:
 
 Crie testes simples para validar seu agente:
 
-### Teste 1: Consulta de gastos
-- **Pergunta:** "Quanto gastei com alimentação?"
-- **Resposta esperada:** Valor baseado no `transacoes.csv`
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- Teste 1: Pergunta sobre produto
+Pergunta: "O que é LCI?"
 
-### Teste 2: Recomendação de produto
-- **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
-- **Resultado:** [ ] Correto  [ ] Incorreto
+Resposta esperada: Explicação sobre LCI + exemplo.
 
-### Teste 3: Pergunta fora do escopo
-- **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
-- **Resultado:** [ ] Correto  [ ] Incorreto
+Resultado: [✅] Correto [ ] Incorreto
 
-### Teste 4: Informação inexistente
-- **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- Teste 2: Simulação de rendimento
+Pergunta: "Quanto rende 2000 em 10 meses a 0,8%?"
 
+Resposta esperada: Cálculo correto de juros compostos.
+
+Resultado: [✅] Correto [ ] Incorreto
+
+- Teste 3: Pergunta fora da base
+Pergunta: "O que é NFT?"
+
+Resposta esperada: Fallback amigável ("Não sei, mas posso ajudar com...").
+
+Resultado: [✅] Correto [ ] Incorreto
+
+- Teste 4: Pergunta fora do escopo
+Pergunta: "Me indica um bom banco?"
+
+Resposta esperada: Explicação de que não faz recomendações.
+
+Resultado: [✅] Correto [ ] Incorreto
+
+- Teste 5: Entrada vazia
+Pergunta: [usuário envia mensagem em branco]
+
+Resposta esperada: Pedir para digitar algo ou manter silêncio (ideal: não quebrar).
+
+Resultado: [✅] Correto [ ] Incorreto
 ---
 
 ## Resultados
@@ -53,10 +68,22 @@ Crie testes simples para validar seu agente:
 Após os testes, registre suas conclusões:
 
 **O que funcionou bem:**
-- [Liste aqui]
+
+✅ Respostas curtas com exemplos práticos.
+
+✅ Tom informal e uso de emojis (💰📈😊).
+
+✅ Cálculos instantâneos e corretos.
+
+✅ Fallback educado ("Puts, essa não é minha área...").
 
 **O que pode melhorar:**
-- [Liste aqui]
+
+🔧 Adicionar mais termos (ex: "dividendos", "IPCA", "reserva de emergência").
+
+🔧 Melhorar detecção de variações (ex: "quanto renderia", "simula 1000 reais").
+
+🔧 Incluir sugestão de leitura/canais no fallback.
 
 ---
 
@@ -64,8 +91,13 @@ Após os testes, registre suas conclusões:
 
 Para quem quer explorar mais, algumas métricas técnicas de observabilidade também podem fazer parte da sua solução, como:
 
-- Latência e tempo de resposta;
-- Consumo de tokens e custos;
-- Logs e taxa de erros.
+As pessoas entenderam a resposta?
+
+Elas se sentiram acolhidas?
+
+Elas aprenderam algo novo?
+
+✅ Métrica mais importante: "Valeu, agora entendi!" — se isso aparecer no chat, o agente cumpriu seu papel.
+
 
 Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
